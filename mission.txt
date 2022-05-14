@@ -1,0 +1,44 @@
+************************************************************GENERAL************************************************************************
+
+                        for eery new source of data, we will need just to add a new normalization function
+
+
+************************************************************BONUS************************************************************************
+
+                                                    duplicate rows:
+                            we can use the upsert functionality according to some columns/pk.
+
+                                
+                                                    scalablility:
+
+bottlenecks:
+- writing to the db
+    1. how many rows to write each time to the db.
+    2. use the pool smartly, to keep it open until we finished.
+    3. write the most efficiency sql
+
+- etl function
+    1. instead of reading row by row, we need to figure out a way to proccess number of rows each time.
+
+- memory issues
+    1. in real production we might do it for large files and for many of them parallel. we can have here
+    memory issues, that the use of stream should solve, but it steel can happen.
+    
+- in real production:
+    1. use several of service like that to decentralize the proccessing (use of containers should make it easier)
+    2. write a scalable & strong class of accecing to the DB
+    3. there are many tools that built for etl (nifi for example), so i would figure out if a tool like that may solve many of the issues mentioned here
+    4. write to DB big chunks of data
+
+
+                                                    handaling data corruption:
+
+in case of currupted data in the db:
+1. we can use the upsert functionality, and decide what to update in case of...
+2. we can save a column that connects to each file, and with that way to delete according to that the currupted data.
+3. we can use update functionality.
+
+before we insert new data to the db:
+1. we can define a validation function - that insert new data only if stands with the validation conditions.
+2. we will define roles on the db column (not null for example)
+
